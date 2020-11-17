@@ -2,7 +2,7 @@
 
 Een ANN voor het voorspellen van vogeltrek
 
-De data moet in een csv bestand in de data folder worden gezet.\
+De weerdata moet in een csv bestand met de naam 'weather_data.csv' in de data folder worden gezet.
 Het bestand dient de volgende kolommen te hebben:
 date (YYYYMMDD)
 wind_veloctity (m/s)

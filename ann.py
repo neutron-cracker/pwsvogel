@@ -1,28 +1,36 @@
-# import os
-# import datetime
+import os
 import pandas as pd
-# import numpy as np
-# import seaborn as sns
-import tensorflow as tf 
-import helpers
+import tensorflow as tf
 from helpers import Data_processing
-from helpers import Create_model
-# import matplotlib as mpl 
-# import matplotlib.pyplot as plt 
-# import IPython
-# import IPython.display
+#from helpers import Create_model
+
 
 # main functions
-def build_model(path_to_csv):
-    csv_raw_data = path_to_csv
-    clean_data = Data_processing.process_to_requested_format(csv_raw_data)
-    model = Create_model()
+def get_data(path_to_csv):
+    raw_dataframe = pd.read_csv(path_to_csv)
+    raw_weather_dataframe = Data_processing.process_time_data(raw_dataframe)
+    clean_dataframe = Data_processing.process_weather_data(
+        raw_weather_dataframe)
+    return clean_dataframe
 
-def train_model():
+
+def build_model():
+    model = Create_model
+    return model
+
+
+def train_model(model, train_data):
     # add stuff
+    return model
+
+
+def predict_with_model(model, data):
+    # add stuff
+    return predicted_data
     pass
 
 
-def predict_with_model():
-    # add stuff
-    pass
+path_to_csv = os.path.join(os.getcwd(), "data/weather_data.csv")
+weather_data = get_data(path_to_csv)
+model = build_model()
+trained_model = train_model(model, train_data)
