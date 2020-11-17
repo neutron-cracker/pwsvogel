@@ -1,17 +1,21 @@
 import os
 import pandas as pd
 import tensorflow as tf
-from helpers import Data_processing
-#from helpers import Create_model
-
-
+from data import Data_processing as dp
+from model import Create_model as cm
 # main functions
+
+
 def get_data(path_to_csv):
     raw_dataframe = pd.read_csv(path_to_csv)
-    raw_weather_dataframe = Data_processing.process_time_data(raw_dataframe)
-    clean_dataframe = Data_processing.process_weather_data(
+    raw_weather_dataframe = dp.process_time_data(raw_dataframe)
+    clean_dataframe = dp.process_weather_data(
         raw_weather_dataframe)
-    return clean_dataframe
+    dataset = dp.convert_pandas_dataframe_to_tf_dataset(clean_dataframe)
+    del raw_dataframe
+    del raw_weather_dataframe
+    # del clean_dataframe
+    return dataset
 
 
 def build_model():
