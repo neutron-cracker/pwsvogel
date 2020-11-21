@@ -30,8 +30,38 @@ class Data_processing:
         return weather_dataframe
 
     def convert_pandas_dataframe_to_tf_dataset(pandas_dataframe):
-        tf_dataset = tf.data.Dataset.from_tensor_slices(pandas_dataframe.values)
+        tf_dataset = tf.data.Dataset.from_tensor_slices(
+            pandas_dataframe.values)
         return tf_dataset
 
-class Get_data_from_knmi ():
+
+class transform_data_frame():  
+
+    #! removes last 4 rows
+    def transform_data(dataframe_with_weather_data_for_1_day_per_row):
+        dataframe = dataframe_with_weather_data_for_1_day_per_row
+        temp_dataframe = dataframe_with_weather_data_for_1_day_per_row
+        series_with_all_collums = temp_dataframe.columns
+        for b in range(-1, -6, -1):
+            days_back = -1 * b
+            for a in range(0, 5):
+                column = temp_dataframe.iloc[:, a]
+                column_name = series_with_all_collums[a]
+                temp_column_name = f'{column_name}_{b}'
+                temp_column = transform_data_frame.transform_column(  # fix it
+                    column, days_back)
+                temp_dataframe[temp_column_name] = temp_column
+                temp_dataframe[f'{temp_column_name}'] = temp_column
+        dataframe_with_weather_data_for_5_days_per_row = temp_dataframe
+        return dataframe_with_weather_data_for_5_days_per_row
+
+    def transform_column(old_column, days_back):
+        for x in (0, days_back):
+            temp_column = old_column.drop(index=x)
+        temp_column.reset_index()
+        new_column = temp_column
+        return new_column
+
+
+class Get_data_from_knmi():
     pass
