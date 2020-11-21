@@ -1,7 +1,13 @@
+import tensorflow as tf
+from tensorflow import keras
+
+
 class Model:  # base class for model
 
+    #!not working
+    # TODO get a fix lol
     def __init__(self):
-        self.model = build_model()
+        self.model = self.build_model()
 
     def build_model():
         model = tf.keras.Sequential([
