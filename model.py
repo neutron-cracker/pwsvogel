@@ -9,7 +9,7 @@ class Model:  # base class for model
 
     def build_model():
         model = keras.Sequential([
-            keras.layers.Flatten(input_shape=30,),
+            keras.layers.Flatten(input_shape=(30,)),
             keras.layers.Dense(64, activation='sigmoid'),
             keras.layers.Dense(64, activation='sigmoid'),
             keras.layers.Dense(66, activation='sigmoid')
