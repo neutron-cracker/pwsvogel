@@ -1,11 +1,11 @@
-import tensorflow as tensorflow
+import tensorflow
 from tensorflow import keras
 
 
 class Model:  # base class for model
 
-    def __init__(self):
-        self.model = self.build_model()
+    # def __init__(self):
+    #    self.model = self.build_model()
 
     def build_model():
         model = tensorflow.keras.Sequential([
@@ -14,11 +14,9 @@ class Model:  # base class for model
             keras.layers.Dense(64, activation='sigmoid'),
             keras.layers.Dense(66, activation='sigmoid')
         ])
-        print(model.summary())  # can eventually be removed
-        model.compile(optimizer='adam',
-                      loss=tensorflow.keras.losses.BinaryCrossentropy(
-                          from_logits=True),
-                      metrics=['accuracy'])
+        print(model.summary())  # can eventually be removed, or in logger https://docs.python.org/3/library/logging.html
+        model.compile(optimizer='adam', loss=tensorflow.keras.losses.BinaryCrossentropy(
+            from_logits=True), metrics=['accuracy'])
         return model
 
     def train_model(model, train_data):
