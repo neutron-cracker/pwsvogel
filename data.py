@@ -42,7 +42,7 @@ class transform_data_frame():
         dataframe = dataframe_with_weather_data_for_1_day_per_row
         temp_dataframe = dataframe_with_weather_data_for_1_day_per_row
         series_with_all_collums = temp_dataframe.columns
-        for b in range(-1, -6, -1):
+        for b in range(-1, -6, -1):  # todo check if too many days
             days_back = -1 * b
             for a in range(0, 5):
                 column = temp_dataframe.iloc[:, a]

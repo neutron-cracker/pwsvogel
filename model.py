@@ -1,5 +1,6 @@
 import tensorflow
 from tensorflow import keras
+from tensorflow.keras import layers
 
 
 class Model:  # base class for model
@@ -19,11 +20,11 @@ class Model:  # base class for model
             from_logits=True), metrics=['accuracy'])
         return model
 
-    def train_model(model, train_data):
-        # add stuff
+    def train_model(model, input_train_data, output_data, epochs, validation_data):
+        model.fit(x=input_train_data, y=output_data, epochs=epochs, verbose=2, validation_data=validation_data)
         return model
 
-    def predict_with_model(model, data):
-        # add stuff
+    def predict_with_model(model, input_data):
+        model.predict(x=input_data)
         return predicted_data
-        pass
+

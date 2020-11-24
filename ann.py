@@ -20,7 +20,8 @@ def get_data(path_to_csv):
     return dataset
 
 
-path_to_csv = os.path.join(os.getcwd(), "data/weather_data.csv")
+root_path = os.getcwd
+path_to_csv = os.path.join(root_path, "data/weather_data.csv")
 weather_data = get_data(path_to_csv)
 # type thing to split data
 model = modelClass.build_model()
@@ -28,5 +29,8 @@ tensorflow.keras.utils.plot_model( # can eventually be removed
     model, to_file='model.png'
 )
 
-# ERROR: Exception has occurred: AttributeError; 'Sequential' object has no attribute 'train_model' TODO: fix this error. I don't know how...
+train_data = wea
+validation_data =
+test_data = 
 trained_model = modelClass.train_model(model, train_data)
+model.sa
