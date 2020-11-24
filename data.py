@@ -1,41 +1,41 @@
-import numpy as np
-import pandas as pd
-import tensorflow as tf
+import numpy as numpy
+import pandas as pandas
+import tensorflow as tensorflow
 import datetime
 
 
 class Data_processing:
     def process_time_data(date_dataframe):
         seconds_in_year = 365.2425 * 24 * 60 * 60
-        date_time = pd.to_datetime(
-            date_dataframe.pop('date'), format='%Y-%m-%d')
+        date_time = pandas.to_datetime(
+            date_dataframe.pop('DATE'), format='%Y-%m-%d')
         timestamp_seconds_since_epoch = date_time.map(
             datetime.datetime.timestamp)
-        moment_of_year_cos = np.sin(
-            timestamp_seconds_since_epoch * (2 * np.pi / seconds_in_year))
-        moment_of_year_sin = np.cos(
-            timestamp_seconds_since_epoch * (2 * np.pi / seconds_in_year))
+        moment_of_year_cos = numpy.sin(
+            timestamp_seconds_since_epoch * (2 * numpy.pi / seconds_in_year))
+        moment_of_year_sin = numpy.cos(
+            timestamp_seconds_since_epoch * (2 * numpy.pi / seconds_in_year))
         date_dataframe['moment_of_year_cos'] = moment_of_year_cos
         date_dataframe['moment_of_year_sin'] = moment_of_year_sin
         return date_dataframe
 
     def process_weather_data(weather_dataframe):
-        wind_rotation_degrees = weather_dataframe.pop('wind_rotation')
-        wind_velocity = weather_dataframe.pop('wind_velocity')
-        wind_rotation_radian = wind_rotation_degrees * 2 * np.pi / 360
-        wind_x = wind_velocity * np.cos(wind_rotation_radian)
-        wind_y = wind_velocity * np.sin(wind_rotation_radian)
+        wind_rotation_degrees = weather_dataframe.pop('DDVEC')
+        wind_velocity = weather_dataframe.pop('FHVEC')
+        wind_rotation_radian = wind_rotation_degrees * 2 * numpy.pi / 360
+        wind_x = wind_velocity * numpy.cos(wind_rotation_radian)
+        wind_y = wind_velocity * numpy.sin(wind_rotation_radian)
         weather_dataframe['wind_x'] = wind_x
         weather_dataframe['wind_y'] = wind_y
         return weather_dataframe
 
     def convert_pandas_dataframe_to_tf_dataset(pandas_dataframe):
-        tf_dataset = tf.data.Dataset.from_tensor_slices(
+        tf_dataset = tensorflow.data.Dataset.from_tensor_slices(
             pandas_dataframe.values)
         return tf_dataset
 
 
-class transform_data_frame():  
+class transform_data_frame():
 
     #! removes last 4 rows
     def transform_data(dataframe_with_weather_data_for_1_day_per_row):

@@ -1,21 +1,20 @@
-import tensorflow as tf
+import tensorflow as tensorflow
 from tensorflow import keras
 
 
 class Model:  # base class for model
 
-    #!not working
-    # TODO get a fix lol
     def __init__(self):
         self.model = self.build_model()
 
     def build_model():
-        model = tf.keras.Sequential([
-            keras.layers.Flatten(input_shape=30),
+        model = keras.Sequential([
+            keras.layers.Flatten(input_shape=30,),
             keras.layers.Dense(64, activation='sigmoid'),
             keras.layers.Dense(64, activation='sigmoid'),
             keras.layers.Dense(66, activation='sigmoid')
         ])
+        print(model.summary)
         return model
 
     def train_model(model, train_data):
