@@ -6,9 +6,9 @@ import datetime
 
 class Data_processing:
 
-# --------------------------------------------------------------------------------------------------------
-# Process and convert time data into cosin and sin.
-# --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    # Process and convert time data into cosin and sin.
+    # --------------------------------------------------------------------------------------------------------
 
     def process_time_data(date_dataframe):
         seconds_in_year = 365.2425 * 24 * 60 * 60
@@ -43,19 +43,22 @@ class Data_processing:
 # --------------------------------------------------------------------------------------------------------
 
     def process_birdMigration_data(birdMigration_dataframe):
-        date_of_flight = Data_processing.proces_time_data(birdMigration_dataframe) # get date of flying bird
-        specie = birdMigration_dataframe.pop('specie') # get specie of flying birds
-        avg_amount = birdMigration_dataframe.pop('average_amount') # get average amount of flying birds
+        date_of_flight = Data_processing.proces_time_data(
+            birdMigration_dataframe)  # get date of flying bird
+        specie = birdMigration_dataframe.pop(
+            'specie')  # get specie of flying birds
+        avg_amount = birdMigration_dataframe.pop(
+            'average_amount')  # get average amount of flying birds
 
 # --------------------------------------------------------------------------------------------------------
 # Convert pandas dataframe to tensorflow dataset TODO: not needed anymore, right?
 # --------------------------------------------------------------------------------------------------------
 
-    def convert_pandas_dataframe_to_tf_dataset(pandas_dataframe):
+    def convert_pandas_dataframe_to_tf_dataset(pandas_dataframe_input, pandas_dataframe_target):
         tf_dataset = tensorflow.data.Dataset.from_tensor_slices(
-            pandas_dataframe.values)
-        return tf_dataset
+            [pandas_dataframe_input.values, pandas_dataframe_target.values])
 
+        return tf_dataset
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -91,6 +94,8 @@ class transform_data_frame():
 # --------------------------------------------------------------------------------------------------------
 # Get data form KNMI API TODO: It's too tedious for someone to ask API_KEY and request large database.
 # --------------------------------------------------------------------------------------------------------
+
+
 class Get_data_from_knmi():
     # I think this is not going to happen.
     pass
