@@ -8,13 +8,17 @@ class Model:  # base class for model
         self.model = self.build_model()
 
     def build_model():
-        model = keras.Sequential([
+        model = tensorflow.keras.Sequential([
             keras.layers.Flatten(input_shape=(30,)),
             keras.layers.Dense(64, activation='sigmoid'),
             keras.layers.Dense(64, activation='sigmoid'),
             keras.layers.Dense(66, activation='sigmoid')
         ])
-        print(model.summary)
+        print(model.summary())  # can eventually be removed
+        model.compile(optimizer='adam',
+                      loss=tensorflow.keras.losses.BinaryCrossentropy(
+                          from_logits=True),
+                      metrics=['accuracy'])
         return model
 
     def train_model(model, train_data):
