@@ -28,5 +28,4 @@ tensorflow.keras.utils.plot_model( # can eventually be removed
     model, to_file='model.png'
 )
 
-# ERROR: Exception has occurred: AttributeError; 'Sequential' object has no attribute 'train_model' TODO: fix this error. I don't know how...
 trained_model = modelClass.train_model(model, train_data)
