@@ -8,6 +8,10 @@ class Model:  # base class for model
     # def __init__(self):
     #    self.model = self.build_model()
 
+# --------------------------------------------------------------------------------------------------------
+# Build the model
+# --------------------------------------------------------------------------------------------------------
+
     def build_model():
         model = tensorflow.keras.Sequential([
             keras.layers.Flatten(input_shape=(30,)),
@@ -20,9 +24,17 @@ class Model:  # base class for model
             from_logits=True), metrics=['accuracy'])
         return model
 
-    def train_model(model, input_train_data, output_data, epochs, validation_data):
-        model.fit(x=input_train_data, y=output_data, epochs=epochs, verbose=2, validation_data=validation_data)
+# --------------------------------------------------------------------------------------------------------
+# Train the model.
+# --------------------------------------------------------------------------------------------------------
+
+    def train_model(model, input_train_data, target_data, epochs, validation_data):
+        model.fit(x=input_train_data, y=target_data, epochs=epochs, verbose=2, validation_data=validation_data)
         return model
+
+# --------------------------------------------------------------------------------------------------------
+# Predict with model.
+# --------------------------------------------------------------------------------------------------------
 
     def predict_with_model(model, input_data):
         model.predict(x=input_data)
