@@ -25,12 +25,12 @@ path_to_csv = os.path.join(root_path, "data/weather_data.csv")
 weather_data = get_data(path_to_csv)
 # type thing to split data
 model = modelClass.build_model()
-tensorflow.keras.utils.plot_model( # can eventually be removed
+tensorflow.keras.utils.plot_model(  # can eventually be removed
     model, to_file='model.png'
 )
 
-train_data = wea
+train_data =
 validation_data =
-test_data = 
+test_data =
 trained_model = modelClass.train_model(model, train_data)
 model.sa
