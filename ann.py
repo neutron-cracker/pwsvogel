@@ -46,7 +46,7 @@ tensorflow.keras.utils.plot_model(  # can eventually be removed
 
 # --------------------------------------------------------------------------------------------------------
 # Get number of rows and calculate the amount needed for respectively train, validation, and test data.
-# Define model, set target_data and pecify the amount of epochs
+# Define model, set target_data and pecify the amount of epochs.
 # --------------------------------------------------------------------------------------------------------
 
 length_dataframe = len(weather_data)  # count numbers of rows in csv file
@@ -68,7 +68,7 @@ modelClass.train_model(model, train_dataset, target_data,
     epochs, validation_dataframe)
 
 # --------------------------------------------------------------------------------------------------------
-# Read CSV file and parse dates into pandas dataframe.
+# Give command to train model and save the model.
 # --------------------------------------------------------------------------------------------------------
 
 trained_model = modelClass.train_model(model, train_data)
