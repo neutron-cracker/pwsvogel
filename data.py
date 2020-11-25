@@ -50,6 +50,10 @@ class Data_processing:
         avg_amount = birdMigration_dataframe.pop(
             'average_amount')  # get average amount of flying birds
 
+        birdMigration_dataframe['date'] = date_of_flight
+
+        return birdMigration_dataframe
+
 # --------------------------------------------------------------------------------------------------------
 # Convert pandas dataframe to tensorflow dataset TODO: not needed anymore, right?
 # --------------------------------------------------------------------------------------------------------

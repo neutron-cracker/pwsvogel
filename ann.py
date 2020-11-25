@@ -25,13 +25,17 @@ def get_data(path_to_csv):
     return transformed_data_frame
 
 # --------------------------------------------------------------------------------------------------------
-# Variables for DATA-CSV file and get the data.
+# Variables for DATA-CSV files and get the data.
 # --------------------------------------------------------------------------------------------------------
 
 
 root_path = os.getcwd()
-path_to_csv = os.path.join(root_path, "data/weather_data.csv")
-weather_data = get_data(path_to_csv)
+
+path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
+path_to_csv_bird = os.path.join(root_path, "data/bird_migration.csv")
+
+weather_data = get_data(path_to_csv_weather)
+bird_data = get_data(path_to_csv_bird)
 
 # TODO type thing to split data
 
@@ -60,9 +64,9 @@ validation_dataframe = weather_data[int(
 test_dataframe = weather_data[int(0.9*length_dataframe):length_dataframe]
 
 
-target_data = [2, 3]  # TODO
+target_data = Data_processing.process_birdMigration_data(bird_data)  # TODO
 epochs = 2
-train_dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(train_dataframe, train_dataframe) #, train_dataframe)
+train_dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(train_dataframe, bird_data) #, train_dataframe)
 print (train_dataframe)
 modelClass.train_model(model, train_dataset, target_data,
     epochs, validation_dataframe)
