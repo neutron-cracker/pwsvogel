@@ -8,11 +8,11 @@ import numpy
 # main functions
 
 # --------------------------------------------------------------------------------------------------------
-# Read CSV file and parse dates into pandas dataframe.
+# Read CSV file for weather and parse dates into pandas dataframe.
 # --------------------------------------------------------------------------------------------------------
 
 
-def get_data(path_to_csv):
+def get_data_weather(path_to_csv):
     raw_dataframe = pandas.read_csv(path_to_csv)
     raw_dataframe.info()
     raw_weather_dataframe = Data_processing.process_time_data(raw_dataframe)
@@ -25,6 +25,19 @@ def get_data(path_to_csv):
     return transformed_data_frame
 
 # --------------------------------------------------------------------------------------------------------
+# Read CSV file for birds and parse dates into pandas dataframe.
+# --------------------------------------------------------------------------------------------------------
+
+
+def get_data_bird(path_to_csv):
+    raw_dataframe = pandas.read_csv(path_to_csv)
+    raw_dataframe.info()
+    raw_bird_dataframe = Data_processing.process_time_data(raw_dataframe)
+    # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
+    # transformed_data_frame)
+    return raw_bird_dataframe
+
+# --------------------------------------------------------------------------------------------------------
 # Variables for DATA-CSV files and get the data.
 # --------------------------------------------------------------------------------------------------------
 
@@ -34,8 +47,8 @@ root_path = os.getcwd()
 path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(root_path, "data/bird_migration.csv")
 
-weather_data = get_data(path_to_csv_weather)
-bird_data = get_data(path_to_csv_bird)
+weather_data = get_data_weather(path_to_csv_weather)
+bird_data = get_data_bird(path_to_csv_bird)
 
 # TODO type thing to split data
 
@@ -66,10 +79,11 @@ test_dataframe = weather_data[int(0.9*length_dataframe):length_dataframe]
 
 target_data = Data_processing.process_birdMigration_data(bird_data)  # TODO
 epochs = 2
-train_dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(train_dataframe, bird_data) #, train_dataframe)
-print (train_dataframe)
+train_dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
+    train_dataframe, bird_data)  # , train_dataframe)
+print(train_dataframe)
 modelClass.train_model(model, train_dataset, target_data,
-    epochs, validation_dataframe)
+                       epochs, validation_dataframe)
 
 # --------------------------------------------------------------------------------------------------------
 # Give command to train model and save the model.
