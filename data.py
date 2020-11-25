@@ -43,14 +43,13 @@ class Data_processing:
 # --------------------------------------------------------------------------------------------------------
 
     def process_birdMigration_data(birdMigration_dataframe):
-        date_of_flight = Data_processing.proces_time_data(
-            birdMigration_dataframe)  # get date of flying bird
+        # get date of flying bird
         specie = birdMigration_dataframe.pop(
             'specie')  # get specie of flying birds
         avg_amount = birdMigration_dataframe.pop(
             'average_amount')  # get average amount of flying birds
 
-        birdMigration_dataframe['date'] = date_of_flight
+        # birdMigration_dataframe['date'] = date_of_flight
 
         return birdMigration_dataframe
 
