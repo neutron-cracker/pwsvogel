@@ -46,11 +46,12 @@ validation_bird_dataframe = weather_data[int(
 test_bird_dataframe = weather_data[int(0.9*length_dataframe):length_dataframe]
 
 
-target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
+#target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
 train_dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
     train_weather_dataframe, train_bird_dataframe)  # , train_dataframe)
 epochs = 2
-modelClass.train_model(model, train_dataset, target_data,
+model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs)
+modelClass.train_model(model, train_dataset,
     epochs)
 
 # --------------------------------------------------------------------------------------------------------

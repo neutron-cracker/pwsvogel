@@ -5,11 +5,9 @@ import datetime
 
 
 class Get_data:
-
     # --------------------------------------------------------------------------------------------------------
     # Read CSV file for weather and parse dates into pandas dataframe.
     # --------------------------------------------------------------------------------------------------------
-
     def get_data_weather(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
         raw_dataframe.info()
@@ -19,20 +17,15 @@ class Get_data:
             raw_weather_dataframe)
         transformed_data_frame = Transform_data_frame.transform_data(
             clean_dataframe)
-        # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
-        # transformed_data_frame)
         return transformed_data_frame
-
     # --------------------------------------------------------------------------------------------------------
     # Read CSV file for birds and parse dates into pandas dataframe.
     # --------------------------------------------------------------------------------------------------------
-
     def get_data_bird(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
         raw_dataframe.info()
         raw_bird_dataframe = Data_processing.process_time_data(raw_dataframe)
-        # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
-        # transformed_data_frame)
+        Data_processing.process_bird_migration_data(raw_bird_dataframe)  # TODO
         return raw_bird_dataframe
 
 
@@ -41,7 +34,6 @@ class Data_processing:
     # --------------------------------------------------------------------------------------------------------
     # Process and convert time data into cosin and sin.
     # --------------------------------------------------------------------------------------------------------
-
     def process_time_data(date_dataframe):
         seconds_in_year = 365.2425 * 24 * 60 * 60
         date_time = pandas.to_datetime(
@@ -55,11 +47,9 @@ class Data_processing:
         date_dataframe['moment_of_year_cos'] = moment_of_year_cos
         date_dataframe['moment_of_year_sin'] = moment_of_year_sin
         return date_dataframe
-
-# --------------------------------------------------------------------------------------------------------
-# Process and convert weather data into vectors.
-# --------------------------------------------------------------------------------------------------------
-
+    # --------------------------------------------------------------------------------------------------------
+    # Process and convert weather data into vectors.
+    # --------------------------------------------------------------------------------------------------------
     def process_weather_data(weather_dataframe):
         wind_rotation_degrees = weather_dataframe.pop('DDVEC')
         wind_velocity = weather_dataframe.pop('FHVEC')
@@ -69,36 +59,29 @@ class Data_processing:
         weather_dataframe['wind_x'] = wind_x
         weather_dataframe['wind_y'] = wind_y
         return weather_dataframe
-
-# --------------------------------------------------------------------------------------------------------
-# Process and convert bird migration data.
-# --------------------------------------------------------------------------------------------------------
-
+    # --------------------------------------------------------------------------------------------------------
+    # Process and convert bird migration data.
+    # --------------------------------------------------------------------------------------------------------
     def process_bird_migration_data(bird_migration_dataframe):
         # get date of flying bird
         # specie = birdMigration_dataframe.pop(
         #     'specie')  # get specie of flying birds
         # avg_amount = birdMigration_dataframe.pop(
         #     'average_amount')  # get average amount of flying birds
-
         # bird_migration_dataframe['date'] = date_of_flight
-
         return bird_migration_dataframe
-
-# --------------------------------------------------------------------------------------------------------
-# Convert pandas dataframe to tensorflow dataset
-# --------------------------------------------------------------------------------------------------------
-
+    # --------------------------------------------------------------------------------------------------------
+    # Convert pandas dataframe to tensorflow dataset
+    # --------------------------------------------------------------------------------------------------------
     def convert_pandas_dataframe_to_tf_dataset(pandas_dataframe_input, pandas_dataframe_target):
         if (pandas_dataframe_target.shape[0] != pandas_dataframe_input.shape[0]):
             raise ValueError("shape input dataframe has to be equal to output dataframe") 
         tf_dataset = tensorflow.data.Dataset.from_tensor_slices(
-            [pandas_dataframe_input.values, pandas_dataframe_target.values])
+            (pandas_dataframe_input.values, pandas_dataframe_target.values))
         return tf_dataset
-
-# --------------------------------------------------------------------------------------------------------
-# Transform the dataframe.
-# --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    # Transform the dataframe.
+    # --------------------------------------------------------------------------------------------------------
 
 
 class Transform_data_frame():
