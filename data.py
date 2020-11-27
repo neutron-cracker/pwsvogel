@@ -24,9 +24,9 @@ class Get_data:
     def get_data_bird(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
         raw_dataframe.info()
-        raw_bird_dataframe = Data_processing.process_time_data(raw_dataframe)
-        Data_processing.process_bird_migration_data(raw_bird_dataframe)  # TODO
-        return raw_bird_dataframe
+        raw_dataframe.pop('DATE')
+        Data_processing.process_bird_migration_data(raw_dataframe)  # TODO
+        return raw_dataframe
 
 
 class Data_processing:
@@ -89,31 +89,27 @@ class Transform_data_frame():
     #! removes last 4 rows
     def transform_data(dataframe_with_weather_data_for_1_day_per_row):
         dataframe = dataframe_with_weather_data_for_1_day_per_row
-        temp_dataframe = dataframe_with_weather_data_for_1_day_per_row
-        series_with_all_collums = temp_dataframe.columns
-        for b in range(-1, -6, -1):  # TODO check if too many days
-            days_back = -1 * b
-            for a in range(0, 5):
-                column = temp_dataframe.iloc[:, a]
+        series_with_all_collums = dataframe.columns
+        for days_back in range(-1, -5, -1):
+            for a in range(0, 6):
+                column = dataframe.iloc[:, a]
                 column_name = series_with_all_collums[a]
-                temp_column_name = f'{column_name}_{b}'
+                temp_column_name = f'{column_name}_{days_back}'
                 temp_column = Transform_data_frame.transform_column(
                     column, days_back)
-                temp_dataframe[temp_column_name] = temp_column
-                temp_dataframe[f'{temp_column_name}'] = temp_column
-        dataframe_with_weather_data_for_5_days_per_row = temp_dataframe
-        return dataframe_with_weather_data_for_5_days_per_row
+                dataframe[temp_column_name] = temp_column
+                dataframe[f'{temp_column_name}'] = temp_column
+        return dataframe
 
     def transform_column(old_column, days_back):
-        for x in (0, days_back):
-            temp_column = old_column.drop(index=x)
-        temp_column.reset_index()
-        new_column = temp_column
+        for x in range(0, -1*days_back, 1):
+            old_column = old_column.drop(index=x)
+        old_column.reset_index(drop=True, inplace=True)
+        new_column = old_column
         return new_column
-
-# --------------------------------------------------------------------------------------------------------
-# Get data form KNMI API TODO: It's too tedious for someone to ask API_KEY and request large database.
-# --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    # Get data form KNMI API TODO: It's too tedious for someone to ask API_KEY and request large database.
+    # --------------------------------------------------------------------------------------------------------
 
 
 class Get_data_from_knmi():

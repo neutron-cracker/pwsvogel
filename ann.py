@@ -1,4 +1,6 @@
 import os
+
+from pandas.core.frame import DataFrame
 import data
 import pandas
 from data import Data_processing
@@ -40,23 +42,39 @@ validation_weather_dataframe = weather_data[int(
 test_weather_dataframe = weather_data[int(
     0.9*length_dataframe):length_dataframe]
 
-train_bird_dataframe = weather_data[0:int(0.7*length_dataframe)]
-validation_bird_dataframe = weather_data[int(
+train_bird_dataframe = bird_data[0:int(0.7*length_dataframe)]
+validation_bird_dataframe = bird_data[int(
     0.7*length_dataframe):int(0.9*length_dataframe)]
-test_bird_dataframe = weather_data[int(0.9*length_dataframe):length_dataframe]
+test_bird_dataframe = bird_data[int(0.9*length_dataframe):length_dataframe]
 
 
-#target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
+# target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
 train_dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
     train_weather_dataframe, train_bird_dataframe)  # , train_dataframe)
-epochs = 2
-model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs)
-modelClass.train_model(model, train_dataset,
-    epochs)
+epochs = 50
+
+# export dataframe
+
+
+def exportFile(dataset, fileName):
+    csv = pandas.DataFrame.to_csv(dataset)
+    outfileName = os.path.join(root_path, fileName)
+    outFile = open(outfileName, "w")
+    outFile.write(csv)
+    outFile.close()
+
+
+train_bird_dataframe.drop(train_bird_dataframe.index[0])
+exportFile(train_bird_dataframe, "bird.csv")
+exportFile(train_weather_dataframe, "weather.csv")
+
 
 # --------------------------------------------------------------------------------------------------------
-# Give command to train model and save the model.
+# Train model and save the model.
 # --------------------------------------------------------------------------------------------------------
 
-trained_model = modelClass.train_model(model, train_dataset)
-model.save()
+model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs, verbose=2, validation_data = (validation_weather_dataframe, validation_bird_dataframe))
+model.save(os.path.join(root_path, "pwsvogelmodel"))
+predictions = model.predict(x=test_weather_dataframe)
+predictions = pandas.DataFrame(data=predictions)
+exportFile(predictions, "predictions.csv")
