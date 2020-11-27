@@ -81,11 +81,7 @@ validation_dataframe = weather_data[int(
 test_dataframe = weather_data[int(0.9*length_dataframe):length_dataframe]
 
 
-<<<<<<< HEAD
-target_data = bird_data[0:int(0.7*length_dataframe)]  # TODO
-=======
 target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
->>>>>>> e4061cfd8d185601d2e1d94837aa5afddf94a733
 print('target_data follows after:')
 print(target_data)
 
