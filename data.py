@@ -3,6 +3,38 @@ import pandas as pandas
 import tensorflow as tensorflow
 import datetime
 
+class  Get_data:
+
+# --------------------------------------------------------------------------------------------------------
+# Read CSV file for weather and parse dates into pandas dataframe.
+# --------------------------------------------------------------------------------------------------------
+
+    def get_data_weather(path_to_csv):
+        raw_dataframe = pandas.read_csv(path_to_csv)
+        raw_dataframe.info()
+        raw_weather_dataframe = Data_processing.process_time_data(raw_dataframe)
+        clean_dataframe = Data_processing.process_weather_data(
+            raw_weather_dataframe)
+        transformed_data_frame = data.transform_data_frame.transform_data(
+            clean_dataframe)
+        # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
+        # transformed_data_frame)
+        return transformed_data_frame
+
+    # --------------------------------------------------------------------------------------------------------
+    # Read CSV file for birds and parse dates into pandas dataframe.
+    # --------------------------------------------------------------------------------------------------------
+
+
+    def get_data_bird(path_to_csv):
+        raw_dataframe = pandas.read_csv(path_to_csv)
+        raw_dataframe.info()
+        raw_bird_dataframe = Data_processing.process_time_data(raw_dataframe)
+        # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
+        # transformed_data_frame)
+        return raw_bird_dataframe
+
+
 
 class Data_processing:
 

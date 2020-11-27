@@ -49,8 +49,8 @@ path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(
     root_path, "data/bird_migration_per_specie.csv")
 
-weather_data = get_data_weather(path_to_csv_weather)
-bird_data = get_data_bird(path_to_csv_bird)
+weather_data = Data_processing.get_data_weather(path_to_csv_weather)
+bird_data = Data_processing.get_data_bird(path_to_csv_bird)
 print('bird data follows after:')
 print(bird_data)
 
