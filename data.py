@@ -86,10 +86,17 @@ class Data_processing:
         return bird_migration_dataframe
 
 # --------------------------------------------------------------------------------------------------------
-# Convert pandas dataframe to tensorflow dataset TODO: not needed anymore, right?
+# Convert pandas dataframe to tensorflow dataset
 # --------------------------------------------------------------------------------------------------------
 
     def convert_pandas_dataframe_to_tf_dataset(pandas_dataframe_input, pandas_dataframe_target):
+        
+        print(f"input shape: {pandas_dataframe_input.shape}")
+        print(f"target shape: {pandas_dataframe_target.shape}")
+        
+        if (pandas_dataframe_target.shape[0] != pandas_dataframe_input.shape[0]):
+            raise ValueError("shape input dataframe has to be equal to output dataframe") 
+
         tf_dataset = tensorflow.data.Dataset.from_tensor_slices(
             [pandas_dataframe_input.values, pandas_dataframe_target.values])
 

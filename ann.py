@@ -54,8 +54,6 @@ bird_data = data.Get_data.get_data_bird(path_to_csv_bird)
 print('bird data follows after:')
 print(bird_data)
 
-# TODO type thing to split data
-
 # --------------------------------------------------------------------------------------------------------
 # Call : Build the model.
 # --------------------------------------------------------------------------------------------------------
@@ -82,13 +80,9 @@ test_dataframe = weather_data[int(0.9*length_dataframe):length_dataframe]
 
 
 target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
-print('target_data follows after:')
-print(target_data)
 
 epochs = 2
 
-print('train_data follows after:')
-print(train_dataframe)
 train_dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
     train_dataframe, bird_data)  # , train_dataframe)
 modelClass.train_model(model, train_dataset, target_data,
