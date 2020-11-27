@@ -44,10 +44,10 @@ class Data_processing:
 
     def process_birdMigration_data(birdMigration_dataframe):
         # get date of flying bird
-        specie = birdMigration_dataframe.pop(
-            'specie')  # get specie of flying birds
-        avg_amount = birdMigration_dataframe.pop(
-            'average_amount')  # get average amount of flying birds
+        # specie = birdMigration_dataframe.pop(
+        #     'specie')  # get specie of flying birds
+        # avg_amount = birdMigration_dataframe.pop(
+        #     'average_amount')  # get average amount of flying birds
 
         # birdMigration_dataframe['date'] = date_of_flight
 
@@ -63,10 +63,11 @@ class Data_processing:
 
         return tf_dataset
 
-
 # --------------------------------------------------------------------------------------------------------
 # Transform the dataframe.
 # --------------------------------------------------------------------------------------------------------
+
+
 class transform_data_frame():
 
     #! removes last 4 rows
