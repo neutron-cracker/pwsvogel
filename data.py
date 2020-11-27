@@ -17,7 +17,11 @@ class Get_data:
             raw_dataframe)
         clean_dataframe = Data_processing.process_weather_data(
             raw_weather_dataframe)
+<<<<<<< HEAD
         transformed_data_frame = Transform_data_frame.transform_data(
+=======
+        transformed_data_frame = transform_data_frame.transform_data(
+>>>>>>> 6fd16843b31eab4845a3137d37751d668eba933b
             clean_dataframe)
         # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
         # transformed_data_frame)
