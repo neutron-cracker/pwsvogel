@@ -8,36 +8,6 @@ import numpy
 # main functions
 
 # --------------------------------------------------------------------------------------------------------
-# Read CSV file for weather and parse dates into pandas dataframe.
-# --------------------------------------------------------------------------------------------------------
-
-
-def get_data_weather(path_to_csv):
-    raw_dataframe = pandas.read_csv(path_to_csv)
-    raw_dataframe.info()
-    raw_weather_dataframe = Data_processing.process_time_data(raw_dataframe)
-    clean_dataframe = Data_processing.process_weather_data(
-        raw_weather_dataframe)
-    transformed_data_frame = data.transform_data_frame.transform_data(
-        clean_dataframe)
-    # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
-    # transformed_data_frame)
-    return transformed_data_frame
-
-# --------------------------------------------------------------------------------------------------------
-# Read CSV file for birds and parse dates into pandas dataframe.
-# --------------------------------------------------------------------------------------------------------
-
-
-def get_data_bird(path_to_csv):
-    raw_dataframe = pandas.read_csv(path_to_csv)
-    raw_dataframe.info()
-    raw_bird_dataframe = Data_processing.process_time_data(raw_dataframe)
-    # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
-    # transformed_data_frame)
-    return raw_bird_dataframe
-
-# --------------------------------------------------------------------------------------------------------
 # Variables for DATA-CSV files and get the data.
 # --------------------------------------------------------------------------------------------------------
 
@@ -47,8 +17,8 @@ root_path = os.getcwd()
 path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(root_path, "data/bird_migration.csv")
 
-weather_data = get_data_weather(path_to_csv_weather)
-bird_data = get_data_bird(path_to_csv_bird)
+weather_data = Data_processing.get_data_weather(path_to_csv_weather)
+bird_data = Data_processing.get_data_bird(path_to_csv_bird)
 print('bird data follows after:')
 print(bird_data)
 
