@@ -3,16 +3,18 @@ import pandas as pandas
 import tensorflow as tensorflow
 import datetime
 
-class  Get_data:
 
-# --------------------------------------------------------------------------------------------------------
-# Read CSV file for weather and parse dates into pandas dataframe.
-# --------------------------------------------------------------------------------------------------------
+class Get_data:
+
+    # --------------------------------------------------------------------------------------------------------
+    # Read CSV file for weather and parse dates into pandas dataframe.
+    # --------------------------------------------------------------------------------------------------------
 
     def get_data_weather(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
         raw_dataframe.info()
-        raw_weather_dataframe = Data_processing.process_time_data(raw_dataframe)
+        raw_weather_dataframe = Data_processing.process_time_data(
+            raw_dataframe)
         clean_dataframe = Data_processing.process_weather_data(
             raw_weather_dataframe)
         transformed_data_frame = data.transform_data_frame.transform_data(
@@ -25,7 +27,6 @@ class  Get_data:
     # Read CSV file for birds and parse dates into pandas dataframe.
     # --------------------------------------------------------------------------------------------------------
 
-
     def get_data_bird(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
         raw_dataframe.info()
@@ -33,7 +34,6 @@ class  Get_data:
         # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
         # transformed_data_frame)
         return raw_bird_dataframe
-
 
 
 class Data_processing:
@@ -74,16 +74,16 @@ class Data_processing:
 # Process and convert bird migration data.
 # --------------------------------------------------------------------------------------------------------
 
-    def process_birdMigration_data(birdMigration_dataframe):
+    def process_bird_migration_data(bird_migration_dataframe):
         # get date of flying bird
         # specie = birdMigration_dataframe.pop(
         #     'specie')  # get specie of flying birds
         # avg_amount = birdMigration_dataframe.pop(
         #     'average_amount')  # get average amount of flying birds
 
-        # birdMigration_dataframe['date'] = date_of_flight
+        # bird_migration_dataframe['date'] = date_of_flight
 
-        return birdMigration_dataframe
+        return bird_migration_dataframe
 
 # --------------------------------------------------------------------------------------------------------
 # Convert pandas dataframe to tensorflow dataset TODO: not needed anymore, right?

@@ -49,8 +49,8 @@ path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(
     root_path, "data/bird_migration_per_specie.csv")
 
-weather_data = Data_processing.get_data_weather(path_to_csv_weather)
-bird_data = Data_processing.get_data_bird(path_to_csv_bird)
+weather_data = data.Get_data.get_data_weather(path_to_csv_weather)
+bird_data = data.Get_data.get_data_bird(path_to_csv_bird)
 print('bird data follows after:')
 print(bird_data)
 
@@ -81,7 +81,11 @@ validation_dataframe = weather_data[int(
 test_dataframe = weather_data[int(0.9*length_dataframe):length_dataframe]
 
 
+<<<<<<< HEAD
 target_data = bird_data[0:int(0.7*length_dataframe)]  # TODO
+=======
+target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
+>>>>>>> e4061cfd8d185601d2e1d94837aa5afddf94a733
 print('target_data follows after:')
 print(target_data)
 
