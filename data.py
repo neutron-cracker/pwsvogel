@@ -17,7 +17,7 @@ class Get_data:
             raw_dataframe)
         clean_dataframe = Data_processing.process_weather_data(
             raw_weather_dataframe)
-        transformed_data_frame = data.transform_data_frame.transform_data(
+        transformed_data_frame = Transform_data_frame.transform_data(
             clean_dataframe)
         # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
         # transformed_data_frame)
@@ -100,7 +100,7 @@ class Data_processing:
 # --------------------------------------------------------------------------------------------------------
 
 
-class transform_data_frame():
+class Transform_data_frame():
 
     #! removes last 4 rows
     def transform_data(dataframe_with_weather_data_for_1_day_per_row):
@@ -113,7 +113,7 @@ class transform_data_frame():
                 column = temp_dataframe.iloc[:, a]
                 column_name = series_with_all_collums[a]
                 temp_column_name = f'{column_name}_{b}'
-                temp_column = transform_data_frame.transform_column(
+                temp_column = Transform_data_frame.transform_column(
                     column, days_back)
                 temp_dataframe[temp_column_name] = temp_column
                 temp_dataframe[f'{temp_column_name}'] = temp_column

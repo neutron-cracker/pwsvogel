@@ -18,7 +18,7 @@ def get_data_weather(path_to_csv):
     raw_weather_dataframe = Data_processing.process_time_data(raw_dataframe)
     clean_dataframe = Data_processing.process_weather_data(
         raw_weather_dataframe)
-    transformed_data_frame = data.transform_data_frame.transform_data(
+    transformed_data_frame = data.Transform_data_frame.transform_data(
         clean_dataframe)
     # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
     # transformed_data_frame)
@@ -54,7 +54,7 @@ bird_data = data.Get_data.get_data_bird(path_to_csv_bird)
 print('bird data follows after:')
 print(bird_data)
 
-# TODO type thing to split data
+# TODO type thing to split data _ !!!!!!!!!!!!! Done, isn't it? !!!!!!!!!!!!!
 
 # --------------------------------------------------------------------------------------------------------
 # Call : Build the model.
