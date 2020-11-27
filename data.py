@@ -74,16 +74,16 @@ class Data_processing:
 # Process and convert bird migration data.
 # --------------------------------------------------------------------------------------------------------
 
-    def process_birdMigration_data(birdMigration_dataframe):
+    def process_bird_migration_data(bird_migration_dataframe):
         # get date of flying bird
-        specie = birdMigration_dataframe.pop(
+        specie = bird_migration_dataframe.pop(
             'specie')  # get specie of flying birds
-        avg_amount = birdMigration_dataframe.pop(
+        avg_amount = bird_migration_dataframe.pop(
             'average_amount')  # get average amount of flying birds
 
-        # birdMigration_dataframe['date'] = date_of_flight
+        # bird_migration_dataframe['date'] = date_of_flight
 
-        return birdMigration_dataframe
+        return bird_migration_dataframe
 
 # --------------------------------------------------------------------------------------------------------
 # Convert pandas dataframe to tensorflow dataset TODO: not needed anymore, right?

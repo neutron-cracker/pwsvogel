@@ -17,8 +17,8 @@ root_path = os.getcwd()
 path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(root_path, "data/bird_migration.csv")
 
-weather_data = Data_processing.get_data_weather(path_to_csv_weather)
-bird_data = Data_processing.get_data_bird(path_to_csv_bird)
+weather_data = data.Get_data.get_data_weather(path_to_csv_weather)
+bird_data = data.Get_data.get_data_bird(path_to_csv_bird)
 print('bird data follows after:')
 print(bird_data)
 
@@ -49,7 +49,7 @@ validation_dataframe = weather_data[int(
 test_dataframe = weather_data[int(0.9*length_dataframe):length_dataframe]
 
 
-target_data = Data_processing.process_birdMigration_data(bird_data)  # TODO
+target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
 print('target_data follows after:')
 print(target_data)
 
