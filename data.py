@@ -17,11 +17,7 @@ class Get_data:
             raw_dataframe)
         clean_dataframe = Data_processing.process_weather_data(
             raw_weather_dataframe)
-<<<<<<< HEAD
         transformed_data_frame = Transform_data_frame.transform_data(
-=======
-        transformed_data_frame = transform_data_frame.transform_data(
->>>>>>> 6fd16843b31eab4845a3137d37751d668eba933b
             clean_dataframe)
         # dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
         # transformed_data_frame)
@@ -94,16 +90,10 @@ class Data_processing:
 # --------------------------------------------------------------------------------------------------------
 
     def convert_pandas_dataframe_to_tf_dataset(pandas_dataframe_input, pandas_dataframe_target):
-        
-        print(f"input shape: {pandas_dataframe_input.shape}")
-        print(f"target shape: {pandas_dataframe_target.shape}")
-        
         if (pandas_dataframe_target.shape[0] != pandas_dataframe_input.shape[0]):
             raise ValueError("shape input dataframe has to be equal to output dataframe") 
-
         tf_dataset = tensorflow.data.Dataset.from_tensor_slices(
             [pandas_dataframe_input.values, pandas_dataframe_target.values])
-
         return tf_dataset
 
 # --------------------------------------------------------------------------------------------------------

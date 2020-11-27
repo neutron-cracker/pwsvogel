@@ -29,9 +29,9 @@ class Model:  # base class for model
 # Train the model.
 # --------------------------------------------------------------------------------------------------------
 
-    def train_model(model, input_train_data, target_data, epochs, validation_data):
+    def train_model(model, input_train_data, target_data, epochs):
         # validation_data=validation_data)
-        model.fit(x=input_train_data, epochs=epochs, verbose=2)
+        model.fit(x=input_train_data, y=target_data, epochs=epochs, verbose=2)
         return model
 
         # https://stackoverflow.com/questions/36921951/truth-value-of-a-series-is-ambiguous-use-a-empty-a-bool-a-item-a-any-o
