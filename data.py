@@ -2,6 +2,7 @@ import numpy as numpy
 import pandas as pandas
 import tensorflow as tensorflow
 import datetime
+import os
 
 
 class Get_data:
@@ -50,7 +51,15 @@ class Get_data:
         weather_data.drop(deleteRows, inplace=False)
         weather_data.reset_index(drop=True, inplace=False)
         print(weather_data)
+        Get_data.exportFile(weather_data, "cleanedWeatherData.csv")
         return weather_data
+
+    def exportFile(dataset, fileName):
+        csv = pandas.DataFrame.to_csv(dataset)
+        outfileName = os.path.join(os.getcwd(), fileName)
+        outFile = open(outfileName, "w")
+        outFile.write(csv)
+        outFile.close()
 
 
 class Convert_data:  # to sin, cosin
