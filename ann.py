@@ -19,11 +19,14 @@ path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(
     root_path, "data/bird_migration_per_specie.csv")
 
-weather_data_unfiltered = data.Get_data.weather_data(path_to_csv_weather)
-bird_data = data.Get_data.bird_data(path_to_csv_bird)
+weather_data_raw = data.Get_data.raw_weather_data(path_to_csv_weather)
+bird_data_unfiltered = data.Get_data.bird_data(path_to_csv_bird)
 
-weather_data = Get_data.filtered_weather_data(
-    weather_data_unfiltered, bird_data)
+weather_data_unfiltered = Get_data.filtered_weather_data(
+    weather_data_raw, bird_data_unfiltered)
+bird_data_unfiltered.pop('DATE')
+weather_data = Get_data.transform_weather_data(weather_data_unfiltered)
+bird_data = bird_data_unfiltered
 
 # --------------------------------------------------------------------------------------------------------
 # Call : Build the model.
@@ -69,7 +72,7 @@ def exportFile(dataset, fileName):
     outFile.close()
 
 
-train_bird_dataframe.pop('DATE')
+# train_bird_dataframe.pop('DATE') TODO
 exportFile(train_bird_dataframe, "bird.csv")
 exportFile(train_weather_dataframe, "weather.csv")
 

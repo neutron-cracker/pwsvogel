@@ -8,41 +8,62 @@ class Get_data:
     # --------------------------------------------------------------------------------------------------------
     # Read CSV file for weather and parse dates into pandas dataframe.
     # --------------------------------------------------------------------------------------------------------
-    def weather_data(path_to_csv):
+    def raw_weather_data(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
-        raw_dataframe.info()
+        return raw_dataframe
+
+    def transform_weather_data(raw_weather_dataframe):
+        raw_weather_dataframe.info()
         raw_weather_dataframe = Convert_data.time_data(
-            raw_dataframe)
+            raw_weather_dataframe)
         clean_dataframe = Convert_data.weather_data(
             raw_weather_dataframe)
         transformed_data_frame = Transform_data.dataframe(
             clean_dataframe)
-        return transformed_data_frame 
+        return transformed_data_frame
     # --------------------------------------------------------------------------------------------------------
     # Read CSV file for birds and parse dates into pandas dataframe.
     # --------------------------------------------------------------------------------------------------------
+
     def bird_data(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
         raw_dataframe.info()
         Convert_data.process_bird_migration_data(raw_dataframe)  # TODO
         return raw_dataframe
-    
-    def filtered_weather_data (weather_data, bird_data):
-        all_bird_dates = bird_data.pop('DATE').tolist()
-        for row_index in range(0, weather_data.shape[0]):
-            row = weather_data.iloc[row_index, :] # Get all rows
-            date = row[0] # Get first item from row
-            
-            if (all_bird_dates.index("w")): # if in date column exists ...
-                print('True')
-                # row exists in bird_data
-            else: #row doesnt exist in bird data
+
+    def filtered_weather_data(weather_data, bird_data):
+        all_bird_dates = bird_data['DATE']
+        all_weather_dates = weather_data['DATE']
+        print(all_bird_dates)
+        print(all_weather_dates)
+
+        deleteRows = []
+        for date in all_weather_dates:
+
+            if not (all_bird_dates == date).any():
+                deleteRows.append(date)
+            else:
                 pass
-        
-        pass
+
+        print(deleteRows)
+        # isDuplicate = all_weather_dates.isin(all_bird_dates)
+
+        print('all_bird_dates')
+        return weather_data
+        # for row_index in range(0, weather_data.shape[0]):
+        #     row = weather_data.iloc[row_index, :] # Get all rows
+        #     date = row[0] # Get first item from row
+
+        #     if (all_bird_dates.index("w")): # if in date column exists ...
+        #         print('True')
+        #         # row exists in bird_data
+        #     else: #row doesnt exist in bird data
+        #         pass
+
+        # pass
 
 
-class Convert_data: #to sin, cosin
+class Convert_data:  # to sin, cosin
 
     # --------------------------------------------------------------------------------------------------------
     # Process and convert time data into cosin and sin.
@@ -63,6 +84,7 @@ class Convert_data: #to sin, cosin
     # --------------------------------------------------------------------------------------------------------
     # Process and convert weather data into vectors.
     # --------------------------------------------------------------------------------------------------------
+
     def weather_data(weather_dataframe):
         wind_rotation_degrees = weather_dataframe.pop('DDVEC')
         wind_velocity = weather_dataframe.pop('FHVEC')
@@ -75,6 +97,7 @@ class Convert_data: #to sin, cosin
     # --------------------------------------------------------------------------------------------------------
     # Process and convert bird migration data.
     # --------------------------------------------------------------------------------------------------------
+
     def process_bird_migration_data(bird_migration_dataframe):
         # get date of flying bird
         # specie = birdMigration_dataframe.pop(
@@ -86,9 +109,11 @@ class Convert_data: #to sin, cosin
     # --------------------------------------------------------------------------------------------------------
     # Convert pandas dataframe to tensorflow dataset
     # --------------------------------------------------------------------------------------------------------
+
     def dataframe_to_tf_dataset(pandas_dataframe_input, pandas_dataframe_target):
         if (pandas_dataframe_target.shape[0] != pandas_dataframe_input.shape[0]):
-            raise ValueError("shape input dataframe has to be equal to output dataframe") 
+            raise ValueError(
+                "shape input dataframe has to be equal to output dataframe")
         tf_dataset = tensorflow.data.Dataset.from_tensor_slices(
             (pandas_dataframe_input.values, pandas_dataframe_target.values))
         return tf_dataset
