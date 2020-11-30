@@ -8,33 +8,36 @@ class Get_data:
     # --------------------------------------------------------------------------------------------------------
     # Read CSV file for weather and parse dates into pandas dataframe.
     # --------------------------------------------------------------------------------------------------------
-    def get_data_weather(path_to_csv):
+    def weather_data(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
         raw_dataframe.info()
-        raw_weather_dataframe = Data_processing.process_time_data(
+        raw_weather_dataframe = Convert_data.time_data(
             raw_dataframe)
-        clean_dataframe = Data_processing.process_weather_data(
+        clean_dataframe = Convert_data.weather_data(
             raw_weather_dataframe)
-        transformed_data_frame = Transform_data_frame.transform_data(
+        transformed_data_frame = Transform_data.dataframe(
             clean_dataframe)
         return transformed_data_frame 
     # --------------------------------------------------------------------------------------------------------
     # Read CSV file for birds and parse dates into pandas dataframe.
     # --------------------------------------------------------------------------------------------------------
-    def get_data_bird(path_to_csv):
+    def bird_data(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
         raw_dataframe.info()
         raw_dataframe.pop('DATE')
-        Data_processing.process_bird_migration_data(raw_dataframe)  # TODO
+        Convert_data.process_bird_migration_data(raw_dataframe)  # TODO
         return raw_dataframe
+    
+    def filtered_weather_data ():
+        pass
 
 
-class Data_processing:
+class Convert_data: #to sin, cosin
 
     # --------------------------------------------------------------------------------------------------------
     # Process and convert time data into cosin and sin.
     # --------------------------------------------------------------------------------------------------------
-    def process_time_data(date_dataframe):
+    def time_data(date_dataframe):
         seconds_in_year = 365.2425 * 24 * 60 * 60
         date_time = pandas.to_datetime(
             date_dataframe.pop('DATE'), format='%Y-%m-%d')
@@ -50,7 +53,7 @@ class Data_processing:
     # --------------------------------------------------------------------------------------------------------
     # Process and convert weather data into vectors.
     # --------------------------------------------------------------------------------------------------------
-    def process_weather_data(weather_dataframe):
+    def weather_data(weather_dataframe):
         wind_rotation_degrees = weather_dataframe.pop('DDVEC')
         wind_velocity = weather_dataframe.pop('FHVEC')
         wind_rotation_radian = wind_rotation_degrees * 2 * numpy.pi / 360
@@ -73,7 +76,7 @@ class Data_processing:
     # --------------------------------------------------------------------------------------------------------
     # Convert pandas dataframe to tensorflow dataset
     # --------------------------------------------------------------------------------------------------------
-    def convert_pandas_dataframe_to_tf_dataset(pandas_dataframe_input, pandas_dataframe_target):
+    def dataframe_to_tf_dataset(pandas_dataframe_input, pandas_dataframe_target):
         if (pandas_dataframe_target.shape[0] != pandas_dataframe_input.shape[0]):
             raise ValueError("shape input dataframe has to be equal to output dataframe") 
         tf_dataset = tensorflow.data.Dataset.from_tensor_slices(
@@ -84,10 +87,10 @@ class Data_processing:
     # --------------------------------------------------------------------------------------------------------
 
 
-class Transform_data_frame():
+class Transform_data:
 
     #! removes last 4 rows
-    def transform_data(dataframe_with_weather_data_for_1_day_per_row):
+    def dataframe(dataframe_with_weather_data_for_1_day_per_row):
         dataframe = dataframe_with_weather_data_for_1_day_per_row
         series_with_all_collums = dataframe.columns
         for days_back in range(-1, -5, -1):
@@ -95,13 +98,13 @@ class Transform_data_frame():
                 column = dataframe.iloc[:, a]
                 column_name = series_with_all_collums[a]
                 temp_column_name = f'{column_name}_{days_back}'
-                temp_column = Transform_data_frame.transform_column(
+                temp_column = Transform_data.column(
                     column, days_back)
                 dataframe[temp_column_name] = temp_column
                 dataframe[f'{temp_column_name}'] = temp_column
         return dataframe
 
-    def transform_column(old_column, days_back):
+    def column(old_column, days_back):
         for x in range(0, -1*days_back, 1):
             old_column = old_column.drop(index=x)
         old_column.reset_index(drop=True, inplace=True)

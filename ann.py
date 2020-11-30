@@ -3,7 +3,7 @@ import os
 from pandas.core.frame import DataFrame
 import data
 import pandas
-from data import Data_processing
+from data import Convert_data
 from model import Model as modelClass
 import tensorflow
 import numpy
@@ -18,8 +18,8 @@ path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(
     root_path, "data/bird_migration_per_specie.csv")
 
-weather_data = data.Get_data.get_data_weather(path_to_csv_weather)
-bird_data = data.Get_data.get_data_bird(path_to_csv_bird)
+weather_data = data.Get_data.weather_data(path_to_csv_weather)
+bird_data = data.Get_data.bird_data(path_to_csv_bird)
 # --------------------------------------------------------------------------------------------------------
 # Call : Build the model.
 # --------------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ test_bird_dataframe = bird_data[int(0.9*length_dataframe):length_dataframe]
 
 
 # target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
-train_dataset = Data_processing.convert_pandas_dataframe_to_tf_dataset(
+train_dataset = Convert_data.dataframe_to_tf_dataset(
     train_weather_dataframe, train_bird_dataframe)  # , train_dataframe)
 epochs = 50
 
