@@ -29,8 +29,8 @@ print('raw weather data')
 print(weather_data_raw)
 weather_data = Get_data.filtered_weather_data(
     weather_data_raw, bird_data_unfiltered)
-weather_data = weather_data.drop(['DATE'], axis = 1)
-bird_data = bird_data_unfiltered.drop('DATE', axis = 1)
+weather_data = weather_data.drop(['DATE'], axis=1)
+bird_data = bird_data_unfiltered.drop('DATE', axis=1)
 
 
 # --------------------------------------------------------------------------------------------------------

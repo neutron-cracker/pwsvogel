@@ -4,11 +4,13 @@
 """
 import datetime
 import pandas
+from model import Model
 from warnings import warn
 from numpy import ndarray
 from pandas import read_csv, to_datetime, DataFrame, Timestamp, infer_freq, \
     Timedelta
 from pastas.timeseries import TimeSeries
+
 
 def read_knmi(fname, variables='RD'):
     """This method can be used to import KNMI data from a file in Pastas.
@@ -415,10 +417,24 @@ class KnmiStation:
         print(self)
         return self
 
+
 knmi = KnmiStation.download()
 knmi_data = knmi.data
-correct_knmi_data = pandas.DataFrame()
-correct_knmi_data['DDVEC'] = knmi_data.pop('DDVEC')
 
-print(knmi_data)
-print(correct_knmi_data)
+arrayWithVariables = ['FHVEC', 'DDVEC', 'TG', 'RH']
+
+
+def getNeededVariables(arrayWithVariables):
+    neededKNMIdata = pandas.DataFrame()
+    for variable in arrayWithVariables:
+        neededKNMIdata[variable] = knmi_data.pop(variable)
+        model = Model.build_model()
+        predictions = Model.predict_with_model(model, neededKNMIdata)
+    return predictions
+
+
+prediction_based_on_knmi_date = getNeededVariables(arrayWithVariables)
+print(prediction_based_on_knmi_date)
+
+# correct_knmi_data = pandas.DataFrame()
+# correct_knmi_data['DDVEC'] = knmi_data.pop('DDVEC')

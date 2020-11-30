@@ -23,12 +23,11 @@ class Get_data:
         transformed_data_frame = Transform_data.dataframe(
             clean_dataframe)
         transformed_data_frame['DATE'] = date
-        #l= []
+        
         length_of_weather_data = len(transformed_data_frame)
         for index in range(length_of_weather_data - 4, length_of_weather_data, 1):
             transformed_data_frame = transformed_data_frame.drop([index])
-            #Ik wilde laatste vier rijen eraf halen door lengte -4 te doen en die vier in die array te stoppen. okie
-            # is ie zo ook goed?
+            # is ie zo ook goed? Nog veel beter!! :)
         return transformed_data_frame
     # --------------------------------------------------------------------------------------------------------
     # Read CSV file for birds and parse dates into pandas dataframe.
