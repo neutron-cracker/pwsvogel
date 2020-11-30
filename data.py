@@ -15,12 +15,20 @@ class Get_data:
 
     def transform_weather_data(raw_weather_dataframe):
         raw_weather_dataframe.info()
+        date = raw_weather_dataframe['DATE']
         raw_weather_dataframe = Convert_data.time_data(
             raw_weather_dataframe)
         clean_dataframe = Convert_data.weather_data(
             raw_weather_dataframe)
         transformed_data_frame = Transform_data.dataframe(
             clean_dataframe)
+        transformed_data_frame['DATE'] = date
+        #l= []
+        length_of_weather_data = len(transformed_data_frame)
+        for index in range(length_of_weather_data - 4, length_of_weather_data, 1):
+            transformed_data_frame = transformed_data_frame.drop([index])
+            #Ik wilde laatste vier rijen eraf halen door lengte -4 te doen en die vier in die array te stoppen. okie
+            # is ie zo ook goed?
         return transformed_data_frame
     # --------------------------------------------------------------------------------------------------------
     # Read CSV file for birds and parse dates into pandas dataframe.
@@ -126,11 +134,11 @@ class Transform_data:
     #! removes last 4 rows
     def dataframe(dataframe_with_weather_data_for_1_day_per_row):
         dataframe = dataframe_with_weather_data_for_1_day_per_row
-        series_with_all_collums = dataframe.columns
+        series_with_all_columns = dataframe.columns
         for days_back in range(-1, -5, -1):
             for a in range(0, 6):
                 column = dataframe.iloc[:, a]
-                column_name = series_with_all_collums[a]
+                column_name = series_with_all_columns[a]
                 temp_column_name = f'{column_name}_{days_back}'
                 temp_column = Transform_data.column(
                     column, days_back)
@@ -139,16 +147,18 @@ class Transform_data:
         return dataframe
 
     def column(old_column, days_back):
-        for x in range(0, -1*days_back, 1):
-            old_column = old_column.drop(index=x)
-        old_column.reset_index(drop=True, inplace=False)
         new_column = old_column
+        for x in range(0, -1*days_back, 1):
+            new_column = new_column.drop(index=x)
+        new_column.reset_index(drop=True, inplace=True)
+        print(new_column)
+        print(old_column)
         return new_column
     # --------------------------------------------------------------------------------------------------------
-    # Get data form KNMI API TODO: It's too tedious for someone to ask API_KEY and request large database.
+    # Get data form KNMI API TODO: Via Script.
     # --------------------------------------------------------------------------------------------------------
 
 
 class Get_data_from_knmi():
-    # I think this is not going to happen.
+    # TODO
     pass
