@@ -34,33 +34,40 @@ class Get_data:
     def filtered_weather_data(weather_data, bird_data):
         all_bird_dates = bird_data['DATE']
         all_weather_dates = weather_data['DATE']
-        print(all_bird_dates)
-        print(all_weather_dates)
+        # print(all_bird_dates)
+        # print(all_weather_dates)
+
+        for date in all_weather_dates:
+            removableIndex = list(numpy.where(
+                all_bird_dates != date))
 
         deleteRows = []
-        for date in all_weather_dates:
 
-            if not (all_bird_dates == date).any():
-                deleteRows.append(date)
-            else:
-                pass
-
-        print(deleteRows)
-        # isDuplicate = all_weather_dates.isin(all_bird_dates)
-
-        print('all_bird_dates')
         return weather_data
-        # for row_index in range(0, weather_data.shape[0]):
-        #     row = weather_data.iloc[row_index, :] # Get all rows
-        #     date = row[0] # Get first item from row
+# for date in all_weather_dates:
 
-        #     if (all_bird_dates.index("w")): # if in date column exists ...
-        #         print('True')
-        #         # row exists in bird_data
-        #     else: #row doesnt exist in bird data
-        #         pass
+# if not (all_bird_dates == date).any():
+#     deleteRows.append(date.index)
+# else:
+#     pass
+# print('removable index follows')
+# for index in range(len(removableIndex)):
+#     print(removableIndex[index])
+# print(deleteRows)
 
-        # pass
+# print('all_bird_dates')
+# return weather_data
+# for row_index in range(0, weather_data.shape[0]):
+#     row = weather_data.iloc[row_index, :] # Get all rows
+#     date = row[0] # Get first item from row
+
+#     if (all_bird_dates.index("w")): # if in date column exists ...
+#         print('True')
+#         # row exists in bird_data
+#     else: #row doesnt exist in bird data
+#         pass
+
+# pass
 
 
 class Convert_data:  # to sin, cosin
