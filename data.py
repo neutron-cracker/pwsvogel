@@ -37,37 +37,16 @@ class Get_data:
         # print(all_bird_dates)
         # print(all_weather_dates)
 
-        for date in all_weather_dates:
-            removableIndex = list(numpy.where(
-                all_bird_dates != date))
-
         deleteRows = []
 
+        for date in all_weather_dates:
+
+            if not (all_bird_dates == date).any():
+                deleteRows.append(date)
+            else:
+                pass
+
         return weather_data
-# for date in all_weather_dates:
-
-# if not (all_bird_dates == date).any():
-#     deleteRows.append(date.index)
-# else:
-#     pass
-# print('removable index follows')
-# for index in range(len(removableIndex)):
-#     print(removableIndex[index])
-# print(deleteRows)
-
-# print('all_bird_dates')
-# return weather_data
-# for row_index in range(0, weather_data.shape[0]):
-#     row = weather_data.iloc[row_index, :] # Get all rows
-#     date = row[0] # Get first item from row
-
-#     if (all_bird_dates.index("w")): # if in date column exists ...
-#         print('True')
-#         # row exists in bird_data
-#     else: #row doesnt exist in bird data
-#         pass
-
-# pass
 
 
 class Convert_data:  # to sin, cosin
