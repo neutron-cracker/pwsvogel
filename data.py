@@ -39,13 +39,17 @@ class Get_data:
 
         deleteRows = []
 
+        indices = pandas.Index(list(all_weather_dates))
         for date in all_weather_dates:
 
             if not (all_bird_dates == date).any():
-                deleteRows.append(date)
+                deleteRows.append(indices.get_loc(date))
             else:
                 pass
 
+        weather_data.drop(deleteRows, inplace=False)
+        weather_data.reset_index(drop=True, inplace=False)
+        print(weather_data)
         return weather_data
 
 
@@ -128,7 +132,7 @@ class Transform_data:
     def column(old_column, days_back):
         for x in range(0, -1*days_back, 1):
             old_column = old_column.drop(index=x)
-        old_column.reset_index(drop=True, inplace=True)
+        old_column.reset_index(drop=True, inplace=False)
         new_column = old_column
         return new_column
     # --------------------------------------------------------------------------------------------------------
