@@ -48,8 +48,8 @@ class Get_data:
             else:
                 pass
 
-        weather_data.drop(deleteRows, inplace=False)
-        weather_data.reset_index(drop=True, inplace=False)
+        weather_data.drop(deleteRows, inplace=True)
+        weather_data.reset_index(drop=True, inplace=True)
         print(weather_data)
         Get_data.exportFile(weather_data, "cleanedWeatherData.csv")
         return weather_data
