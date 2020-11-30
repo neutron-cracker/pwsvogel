@@ -25,8 +25,6 @@ bird_data_unfiltered = data.Get_data.bird_data(path_to_csv_bird)
 
 weather_data_raw = Get_data.transform_weather_data(weather_data_raw)
 
-print('raw weather data')
-print(weather_data_raw)
 weather_data = Get_data.filtered_weather_data(
     weather_data_raw, bird_data_unfiltered)
 weather_data = weather_data.drop(['DATE'], axis=1)
@@ -64,31 +62,22 @@ test_bird_dataframe = bird_data[int(0.9*length_dataframe):length_dataframe]
 # target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
 # train_dataset = Convert_data.dataframe_to_tf_dataset(
 #     train_weather_dataframe, train_bird_dataframe)  # , train_dataframe)
-epochs = 1
+epochs = 25
 
 # export dataframe
 
 
-def exportFile(dataset, fileName):
-    csv = pandas.DataFrame.to_csv(dataset)
-    outfileName = os.path.join(root_path, fileName)
-    outFile = open(outfileName, "w")
-    outFile.write(csv)
-    outFile.close()
 
-
-# train_bird_dataframe.pop('DATE') TODO
-exportFile(train_bird_dataframe, "bird.csv")
-exportFile(train_weather_dataframe, "weather.csv")
+Get_data.exportFile(train_bird_dataframe, "bird.csv")
+Get_data.exportFile(train_weather_dataframe, "weather.csv")
 
 
 # --------------------------------------------------------------------------------------------------------
 # Train model and save the model.
 # --------------------------------------------------------------------------------------------------------
-print(weather_data)
 model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs, verbose=2,
           validation_data=(validation_weather_dataframe, validation_bird_dataframe))
 model.save(os.path.join(root_path, "pwsvogelmodel"))
 predictions = model.predict(x=test_weather_dataframe)
 predictions = pandas.DataFrame(data=predictions)
-exportFile(predictions, "predictions.csv")
+Get_data.exportFile(predictions, "test_predictions.csv")

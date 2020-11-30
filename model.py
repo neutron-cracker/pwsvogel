@@ -9,21 +9,20 @@ class Model:  # base class for model
     # --------------------------------------------------------------------------------------------------------
     def build_model():
         model = tensorflow.keras.Sequential([
-            keras.layers.Flatten(input_shape=(30,)),
-            keras.layers.Dense(1024, activation='sigmoid'),
-            keras.layers.Dense(1024, activation='sigmoid'),
-            keras.layers.Dense(1024, activation='sigmoid'),
-            keras.layers.Dense(66, activation='sigmoid')
+            layers.Flatten(input_shape=(30,)),
+            layers.Dense(1024, activation='sigmoid'),
+            layers.Dense(1024, activation='sigmoid'),
+            layers.Dense(1024, activation='sigmoid'),
+            layers.Dense(66)
         ])
-        # can eventually be removed, or in logger https://docs.python.org/3/library/logging.html
-        print(model.summary())
-        model.compile(optimizer='adam', loss=tensorflow.keras.losses.BinaryCrossentropy(
-            from_logits=True))
+
+        model.compile(optimizer='adadelta', loss=keras.losses.MeanSquaredLogarithmicError(  # adadelta, adagrad
+        ), metrics=['accuracy'])
         return model
 
-	# --------------------------------------------------------------------------------------------------------
-	# Predict with model.
-	# --------------------------------------------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------
+        # Predict with model.
+        # --------------------------------------------------------------------------------------------------------
     def predict_with_model(model, input_data):
-        model.predict(x=input_data)
+        predicted_data = model.predict(x=input_data)
         return predicted_data

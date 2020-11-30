@@ -10,6 +10,9 @@ from numpy import ndarray
 from pandas import read_csv, to_datetime, DataFrame, Timestamp, infer_freq, \
     Timedelta
 from pastas.timeseries import TimeSeries
+from tensorflow import keras
+import os
+from data import Get_data
 
 
 def read_knmi(fname, variables='RD'):
@@ -136,8 +139,6 @@ class KnmiStation:
     # @classmethod
     date_of_today = pandas.datetime.now().date()
     date_of_5_days_back = date_of_today - datetime.timedelta(5)
-    print(date_of_today)
-    print(date_of_5_days_back)
 
     @classmethod
     def download(cls, start=date_of_5_days_back, end=date_of_today, inseason=False, vars='WIND:TEMP:PRCP',
@@ -425,16 +426,22 @@ arrayWithVariables = ['FHVEC', 'DDVEC', 'TG', 'RH']
 
 
 def getNeededVariables(arrayWithVariables):
+    path = os.path.join(os.getcwd(), 'pwsvogelmodel')
     neededKNMIdata = pandas.DataFrame()
     for variable in arrayWithVariables:
         neededKNMIdata[variable] = knmi_data.pop(variable)
-        model = Model.build_model()
-        predictions = Model.predict_with_model(model, neededKNMIdata)
+
+    neededKNMIdata = neededKNMIdata.reset_index()
+    neededKNMIdata.rename(
+        columns={neededKNMIdata.columns[0]: "DATE"}, inplace=True)
+
+    neededKNMIdata = Get_data.transform_weather_data(
+        neededKNMIdata).drop('DATE', axis=1)
+    model = keras.models.load_model(path)
+    predictions = model.predict(x=neededKNMIdata)
+    Get_data.exportFile(pandas.DataFrame(predictions), 'predictions.csv')
     return predictions
 
 
 prediction_based_on_knmi_date = getNeededVariables(arrayWithVariables)
-print(prediction_based_on_knmi_date)
-
-# correct_knmi_data = pandas.DataFrame()
-# correct_knmi_data['DDVEC'] = knmi_data.pop('DDVEC')
+print(prediction_based_on_knmi_date.shape)

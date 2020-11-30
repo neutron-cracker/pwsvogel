@@ -23,11 +23,10 @@ class Get_data:
         transformed_data_frame = Transform_data.dataframe(
             clean_dataframe)
         transformed_data_frame['DATE'] = date
-        
+
         length_of_weather_data = len(transformed_data_frame)
         for index in range(length_of_weather_data - 4, length_of_weather_data, 1):
             transformed_data_frame = transformed_data_frame.drop([index])
-            # is ie zo ook goed? Nog veel beter!! :)
         return transformed_data_frame
     # --------------------------------------------------------------------------------------------------------
     # Read CSV file for birds and parse dates into pandas dataframe.
@@ -42,8 +41,6 @@ class Get_data:
     def filtered_weather_data(weather_data, bird_data):
         all_bird_dates = bird_data['DATE']
         all_weather_dates = weather_data['DATE']
-        # print(all_bird_dates)
-        # print(all_weather_dates)
 
         deleteRows = []
 
@@ -57,12 +54,11 @@ class Get_data:
 
         weather_data.drop(deleteRows, inplace=True)
         weather_data.reset_index(drop=True, inplace=True)
-        print(weather_data)
         Get_data.exportFile(weather_data, "cleanedWeatherData.csv")
         return weather_data
 
-    def exportFile(dataset, fileName):
-        csv = pandas.DataFrame.to_csv(dataset)
+    def exportFile(dataFrame, fileName):
+        csv = pandas.DataFrame.to_csv(dataFrame)
         outfileName = os.path.join(os.getcwd(), fileName)
         outFile = open(outfileName, "w")
         outFile.write(csv)
@@ -150,8 +146,6 @@ class Transform_data:
         for x in range(0, -1*days_back, 1):
             new_column = new_column.drop(index=x)
         new_column.reset_index(drop=True, inplace=True)
-        print(new_column)
-        print(old_column)
         return new_column
     # --------------------------------------------------------------------------------------------------------
     # Get data form KNMI API TODO: Via Script.
