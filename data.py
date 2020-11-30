@@ -24,11 +24,21 @@ class Get_data:
     def bird_data(path_to_csv):
         raw_dataframe = pandas.read_csv(path_to_csv)
         raw_dataframe.info()
-        raw_dataframe.pop('DATE')
         Convert_data.process_bird_migration_data(raw_dataframe)  # TODO
         return raw_dataframe
     
-    def filtered_weather_data ():
+    def filtered_weather_data (weather_data, bird_data):
+        all_bird_dates = bird_data.pop('DATE').tolist()
+        for row_index in range(0, weather_data.shape[0]):
+            row = weather_data.iloc[row_index, :] # Get all rows
+            date = row[0] # Get first item from row
+            
+            if (all_bird_dates.index("w")): # if in date column exists ...
+                print('True')
+                # row exists in bird_data
+            else: #row doesnt exist in bird data
+                pass
+        
         pass
 
 

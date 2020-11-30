@@ -2,15 +2,13 @@
 @author: ruben calje
 
 """
-
+import datetime
+import pandas
 from warnings import warn
-
 from numpy import ndarray
 from pandas import read_csv, to_datetime, DataFrame, Timestamp, infer_freq, \
     Timedelta
-
-from ..timeseries import TimeSeries
-
+from pastas.timeseries import TimeSeries
 
 def read_knmi(fname, variables='RD'):
     """This method can be used to import KNMI data from a file in Pastas.
@@ -133,10 +131,13 @@ class KnmiStation:
         return self
 
     # Construct KnmiStation from download
-    @classmethod
+    # @classmethod
     date_of_today = pandas.datetime.now().date()
-    date_of_5_days_back = pandas.datetime.now().date()
+    date_of_5_days_back = date_of_today - datetime.timedelta(5)
+    print(date_of_today)
+    print(date_of_5_days_back)
 
+    @classmethod
     def download(cls, start=date_of_5_days_back, end=date_of_today, inseason=False, vars='WIND:TEMP:PRCP',
                  stns=260, interval='daily'):
         """Downloads data from the KNMI-server
@@ -172,6 +173,7 @@ class KnmiStation:
         self = cls()
         self._download(start=start, end=end, inseason=inseason, vars=vars,
                        stns=stns, interval=interval)
+        print(self)
         return self
 
     def _download(self, start=None, end=None, inseason=False, vars='ALL',
@@ -410,3 +412,13 @@ class KnmiStation:
             self.variables[key] = value
 
         self.data = data
+        print(self)
+        return self
+
+knmi = KnmiStation.download()
+knmi_data = knmi.data
+correct_knmi_data = pandas.DataFrame()
+correct_knmi_data['DDVEC'] = knmi_data.pop('DDVEC')
+
+print(knmi_data)
+print(correct_knmi_data)

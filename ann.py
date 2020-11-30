@@ -4,6 +4,7 @@ from pandas.core.frame import DataFrame
 import data
 import pandas
 from data import Convert_data
+from data import Get_data
 from model import Model as modelClass
 import tensorflow
 import numpy
@@ -18,8 +19,12 @@ path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(
     root_path, "data/bird_migration_per_specie.csv")
 
-weather_data = data.Get_data.weather_data(path_to_csv_weather)
+weather_data_unfiltered = data.Get_data.weather_data(path_to_csv_weather)
 bird_data = data.Get_data.bird_data(path_to_csv_bird)
+
+weather_data = Get_data.filtered_weather_data(
+    weather_data_unfiltered, bird_data)
+
 # --------------------------------------------------------------------------------------------------------
 # Call : Build the model.
 # --------------------------------------------------------------------------------------------------------
@@ -64,7 +69,7 @@ def exportFile(dataset, fileName):
     outFile.close()
 
 
-train_bird_dataframe.drop(train_bird_dataframe.index[0])
+train_bird_dataframe.pop('DATE')
 exportFile(train_bird_dataframe, "bird.csv")
 exportFile(train_weather_dataframe, "weather.csv")
 
@@ -73,7 +78,8 @@ exportFile(train_weather_dataframe, "weather.csv")
 # Train model and save the model.
 # --------------------------------------------------------------------------------------------------------
 
-model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs, verbose=2, validation_data = (validation_weather_dataframe, validation_bird_dataframe))
+model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs, verbose=2,
+          validation_data=(validation_weather_dataframe, validation_bird_dataframe))
 model.save(os.path.join(root_path, "pwsvogelmodel"))
 predictions = model.predict(x=test_weather_dataframe)
 predictions = pandas.DataFrame(data=predictions)
