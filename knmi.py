@@ -4,6 +4,7 @@
 """
 import datetime
 import pandas
+from tensorflow.python.keras.backend import print_tensor
 from model import Model
 from warnings import warn
 from numpy import ndarray
@@ -137,8 +138,8 @@ class KnmiStation:
 
     # Construct KnmiStation from download
     # @classmethod
-    date_of_today = pandas.datetime.now().date() - datetime.timedelta(3)
-    date_of_5_days_back = date_of_today - datetime.timedelta(5)
+    date_of_today = datetime.date(2020,11,28) #pandas.datetime.now().date() #- datetime.timedelta(3)
+    date_of_5_days_back = date_of_today - datetime.timedelta(4)
 
     @classmethod
     def download(cls, start=date_of_5_days_back, end=date_of_today, inseason=False, vars='WIND:TEMP:PRCP',
@@ -439,6 +440,7 @@ def getNeededVariables(arrayWithVariables):
         neededKNMIdata).drop('DATE', axis=1)
     # print(neededKNMIdata)
     model = keras.models.load_model(path)
+    print(model.summary())
     predictions = model.predict(x=neededKNMIdata)
     Get_data.exportFile(pandas.DataFrame(predictions), 'predictions.csv')
     return predictions

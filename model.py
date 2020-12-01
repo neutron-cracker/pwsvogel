@@ -20,7 +20,7 @@ class Model:  # base class for model
         ])
 
         model.summary()
-        model.compile(optimizer='RMSprop', loss=keras.losses.MeanSquaredLogarithmicError(  # adadelta, adagrad
+        model.compile(optimizer='RMSprop', loss=keras.losses.BinaryCrossentropy(  # adadelta, adagrad
         ), metrics=['accuracy'])
         return model
 
