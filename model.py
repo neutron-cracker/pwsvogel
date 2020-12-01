@@ -11,11 +11,10 @@ class Model:  # base class for model
         model = tensorflow.keras.Sequential([
             layers.Flatten(input_shape=(30,)),
             layers.Dense(1024, activation='relu'),
-            layers.Dropout(.2),
+            layers.Dropout(.8),
             layers.Dense(1024, activation='relu'),
-            layers.Dropout(.2),
+            layers.Dropout(.3),
             layers.Dense(1024, activation='relu'),
-            layers.Dropout(.2),
             layers.Dense(66, activation='relu')
         ])
 

@@ -137,7 +137,7 @@ class KnmiStation:
 
     # Construct KnmiStation from download
     # @classmethod
-    date_of_today = pandas.datetime.now().date() - datetime.timedelta(3)
+    date_of_today = pandas.datetime.now().date()
     date_of_5_days_back = date_of_today - datetime.timedelta(5)
 
     @classmethod
