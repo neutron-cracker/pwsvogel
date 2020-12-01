@@ -137,7 +137,7 @@ class KnmiStation:
 
     # Construct KnmiStation from download
     # @classmethod
-    date_of_today = pandas.datetime.now().date()
+    date_of_today = pandas.datetime.now().date() - datetime.timedelta(3)
     date_of_5_days_back = date_of_today - datetime.timedelta(5)
 
     @classmethod
@@ -437,6 +437,7 @@ def getNeededVariables(arrayWithVariables):
 
     neededKNMIdata = Get_data.transform_weather_data(
         neededKNMIdata).drop('DATE', axis=1)
+    # print(neededKNMIdata)
     model = keras.models.load_model(path)
     predictions = model.predict(x=neededKNMIdata)
     Get_data.exportFile(pandas.DataFrame(predictions), 'predictions.csv')
@@ -444,4 +445,4 @@ def getNeededVariables(arrayWithVariables):
 
 
 prediction_based_on_knmi_date = getNeededVariables(arrayWithVariables)
-print(prediction_based_on_knmi_date.shape)
+print(prediction_based_on_knmi_date)

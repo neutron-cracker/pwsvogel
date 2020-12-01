@@ -8,6 +8,7 @@ from data import Get_data
 from model import Model as modelClass
 import tensorflow
 import numpy
+import matplotlib.pyplot as plt
 # main functions
 
 # --------------------------------------------------------------------------------------------------------
@@ -62,10 +63,9 @@ test_bird_dataframe = bird_data[int(0.9*length_dataframe):length_dataframe]
 # target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
 # train_dataset = Convert_data.dataframe_to_tf_dataset(
 #     train_weather_dataframe, train_bird_dataframe)  # , train_dataframe)
-epochs = 25
+epochs = 150
 
 # export dataframe
-
 
 
 Get_data.exportFile(train_bird_dataframe, "bird.csv")
@@ -75,8 +75,20 @@ Get_data.exportFile(train_weather_dataframe, "weather.csv")
 # --------------------------------------------------------------------------------------------------------
 # Train model and save the model.
 # --------------------------------------------------------------------------------------------------------
-model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs, verbose=2,
-          validation_data=(validation_weather_dataframe, validation_bird_dataframe))
+history = model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs, verbose=2,
+                    validation_data=(validation_weather_dataframe, validation_bird_dataframe))
+
+training_loss = history.history['loss']
+test_loss = history.history['val_loss']
+epoch_count = range(1, len(training_loss)+1)
+
+plt.plot(epoch_count, training_loss, 'r--')
+plt.plot(epoch_count, test_loss, 'b-')
+plt.legend(['Training Error', 'Test Error'])
+plt.xlabel('Epoch')
+plt.ylabel('Error')
+plt.show()
+
 model.save(os.path.join(root_path, "pwsvogelmodel"))
 predictions = model.predict(x=test_weather_dataframe)
 predictions = pandas.DataFrame(data=predictions)

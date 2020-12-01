@@ -147,11 +147,3 @@ class Transform_data:
             new_column = new_column.drop(index=x)
         new_column.reset_index(drop=True, inplace=True)
         return new_column
-    # --------------------------------------------------------------------------------------------------------
-    # Get data form KNMI API TODO: Via Script.
-    # --------------------------------------------------------------------------------------------------------
-
-
-class Get_data_from_knmi():
-    # TODO
-    pass
