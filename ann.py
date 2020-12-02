@@ -97,14 +97,14 @@ history = model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=ep
                     validation_data=(validation_weather_dataframe, validation_bird_dataframe))
 
 training_loss = history.history['loss']
-test_loss = history.history['val_loss']
+validation_loss = history.history['val_loss']
 epoch_count = range(1, len(training_loss)+1)
 
 plt.plot(epoch_count, training_loss, 'r--')
-plt.plot(epoch_count, test_loss, 'b-')
-plt.legend(['Training Error', 'Test Error'])
+plt.plot(epoch_count, validation_loss, 'b-')
+plt.legend(['Training Error', 'Validation Loss'])
 plt.xlabel('Epoch')
-plt.ylabel('Error')
+plt.ylabel('Loss')
 plt.savefig('loss.png')
 plt.show()
 
@@ -115,5 +115,5 @@ Get_data.exportFile(predictions, "test_predictions.csv")
 
 path = os.path.join(os.getcwd(), 'pwsvogelmodel')
 model = keras.models.load_model(path)
-test_loss = model.evaluate(x=test_weather_dataframe, y=test_bird_dataframe)
-print(test_loss)
+validation_loss = model.evaluate(x=test_weather_dataframe, y=test_bird_dataframe)
+print(validation_loss)
