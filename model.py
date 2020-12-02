@@ -10,16 +10,16 @@ class Model:  # base class for model
     def build_model():
         model = tensorflow.keras.Sequential([
             layers.Flatten(input_shape=(30,)),
-            layers.Dense(1024, activation='relu'),
-            layers.Dropout(.8),
-            layers.Dense(1024, activation='relu'),
-            layers.Dropout(.3),
-            layers.Dense(1024, activation='relu'),
-            layers.Dense(66, activation='relu')
+            layers.Dense(32, activation='relu'),
+            layers.Dropout(.4),
+            # layers.Dense(32, activation='relu'),
+            # layers.Dropout(.4),
+            # layers.Dense(32, activation='relu'),
+            layers.Dense(11, activation='relu')
         ])
 
         model.summary()
-        model.compile(optimizer='RMSprop', loss=keras.losses.BinaryCrossentropy(  # adadelta, adagrad
+        model.compile(optimizer='RMSprop', loss=keras.losses.MeanSquaredLogarithmicError(  # adadelta, adagrad
         ), metrics=['accuracy'])
         return model
 

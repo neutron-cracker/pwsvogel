@@ -1,6 +1,7 @@
 import os
 
 from pandas.core.frame import DataFrame
+from six import print_
 import data
 import pandas
 from data import Convert_data
@@ -64,7 +65,7 @@ test_bird_dataframe = bird_data[int(0.9*length_dataframe):length_dataframe]
 # target_data = Data_processing.process_bird_migration_data(bird_data)  # TODO
 # train_dataset = Convert_data.dataframe_to_tf_dataset(
 #     train_weather_dataframe, train_bird_dataframe)  # , train_dataframe)
-epochs = 25
+epochs = 200
 
 # export dataframe
 
@@ -73,30 +74,46 @@ Get_data.exportFile(train_bird_dataframe, "bird.csv")
 Get_data.exportFile(train_weather_dataframe, "weather.csv")
 
 
-# # --------------------------------------------------------------------------------------------------------
-# # Train model and save the model.
-# # --------------------------------------------------------------------------------------------------------
-# history = model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs, verbose=2,
-#                     validation_data=(validation_weather_dataframe, validation_bird_dataframe))
+# --------------------------------------------------------------------------------------------------------
+# Train model and save the model.
+# --------------------------------------------------------------------------------------------------------
 
-# training_loss = history.history['loss']
-# test_loss = history.history['val_loss']
-# epoch_count = range(1, len(training_loss)+1)
+print(len(train_bird_dataframe.columns))
+print(train_bird_dataframe.columns[38])
+for column in range((len(train_bird_dataframe.columns) - 1), 10, -1):
+    train_bird_dataframe = train_bird_dataframe.drop(
+        train_bird_dataframe.columns[column], axis=1)
+for column in range((len(validation_bird_dataframe.columns) - 1), 10, -1):
+    validation_bird_dataframe = validation_bird_dataframe.drop(
+        validation_bird_dataframe.columns[column], axis=1)
+for column in range((len(test_bird_dataframe.columns) - 1), 10, -1):
+    test_bird_dataframe = test_bird_dataframe.drop(
+        test_bird_dataframe.columns[column], axis=1)
 
-# plt.plot(epoch_count, training_loss, 'r--')
-# plt.plot(epoch_count, test_loss, 'b-')
-# plt.legend(['Training Error', 'Test Error'])
-# plt.xlabel('Epoch')
-# plt.ylabel('Error')
-# plt.show()
 
-# model.save(os.path.join(root_path, "pwsvogelmodel"))
-# predictions = model.predict(x=test_weather_dataframe)
-# predictions = pandas.DataFrame(data=predictions)
-# Get_data.exportFile(predictions, "test_predictions.csv")
+print(validation_bird_dataframe.shape)
+
+history = model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs, verbose=2, shuffle=True,
+                    validation_data=(validation_weather_dataframe, validation_bird_dataframe))
+
+training_loss = history.history['loss']
+test_loss = history.history['val_loss']
+epoch_count = range(1, len(training_loss)+1)
+
+plt.plot(epoch_count, training_loss, 'r--')
+plt.plot(epoch_count, test_loss, 'b-')
+plt.legend(['Training Error', 'Test Error'])
+plt.xlabel('Epoch')
+plt.ylabel('Error')
+plt.savefig('loss.png')
+plt.show()
+
+model.save(os.path.join(root_path, "pwsvogelmodel"))
+predictions = model.predict(x=test_weather_dataframe)
+predictions = pandas.DataFrame(data=predictions)
+Get_data.exportFile(predictions, "test_predictions.csv")
 
 path = os.path.join(os.getcwd(), 'pwsvogelmodel')
 model = keras.models.load_model(path)
 test_loss = model.evaluate(x=test_weather_dataframe, y=test_bird_dataframe)
 print(test_loss)
-
