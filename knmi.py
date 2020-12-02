@@ -138,8 +138,8 @@ class KnmiStation:
 
     # Construct KnmiStation from download
     # @classmethod
-    date_of_today = datetime.date(2020,11,28) #pandas.datetime.now().date() #- datetime.timedelta(3)
-    date_of_5_days_back = date_of_today - datetime.timedelta(4)
+    date_of_today = pandas.datetime.now().date()
+    date_of_5_days_back = date_of_today - datetime.timedelta(5)
 
     @classmethod
     def download(cls, start=date_of_5_days_back, end=date_of_today, inseason=False, vars='WIND:TEMP:PRCP',
