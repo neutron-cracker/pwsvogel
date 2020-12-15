@@ -1,5 +1,5 @@
 import os
-
+from os import path, getcwd()
 from pandas.core.frame import DataFrame
 from six import print_
 import data
@@ -17,7 +17,8 @@ from tensorflow import keras
 # Read CSV file for weather and parse dates into pandas dataframe.
 # --------------------------------------------------------------------------------------------------------
 
-root_path = os.getcwd()
+root_path = getcwd()
+temp_path = path.join(root_path, 'temp')
 path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(
     root_path, "data/bird_migration_per_specie.csv")
