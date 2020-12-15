@@ -10,16 +10,16 @@ class Model:  # base class for model
     def build_model():
         model = tensorflow.keras.Sequential([
             layers.Flatten(input_shape=(30,)),
-            layers.Dense(32, activation='relu'),
-            layers.Dropout(.4),
-            # layers.Dense(32, activation='relu'),
-            # layers.Dropout(.4),
-            # layers.Dense(32, activation='relu'),
-            layers.Dense(11, activation='relu')
+            layers.Dense(1024, activation='relu'),
+            layers.Dropout(.8),
+            layers.Dense(1024, activation='relu'),
+            layers.Dropout(.2),
+            layers.Dense(1024, activation='relu'),
+            layers.Dense(66, activation='relu')
         ])
 
         model.summary()
-        model.compile(optimizer='RMSprop', loss=keras.losses.MeanSquaredLogarithmicError(  # adadelta, adagrad
+        model.compile(optimizer='RMSprop', loss=keras.losses.MeanSquaredLogarithmicError(
         ), metrics=['accuracy'])
         return model
 
@@ -29,3 +29,7 @@ class Model:  # base class for model
     def predict_with_model(model, input_data):
         predicted_data = model.predict(x=input_data)
         return predicted_data
+    
+    def train_model(model):
+        break
+    
