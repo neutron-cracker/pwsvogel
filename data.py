@@ -54,7 +54,7 @@ class Get_data:
 
         weather_data.drop(deleteRows, inplace=True)
         weather_data.reset_index(drop=True, inplace=True)
-        Get_data.exportFile(weather_data, "cleanedWeatherData.csv")
+        Get_data.exportFile(weather_data, "cleanedWeatherData.csv", true)
         return weather_data
 
     def exportFile(dataFrame, fileName, temp = false):
