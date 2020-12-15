@@ -63,7 +63,22 @@ class Get_data:
         outFile = open(outfileName, "w")
         outFile.write(csv)
         outFile.close()
-
+    
+    def part_of_data(dataframe, part): # part has to be train, validation or test
+        length_dataframe = len(dataframe)
+        if (part == 'train'):
+            # takes 70% of that number of rows
+            return = dataframe[0:int(0.7*length_dataframe)]
+        elif (part == 'validation'):
+            # takes the next 20% of that number of rows
+            dataframe = weather_data[int(
+            0.7*length_dataframe):int(0.9*length_dataframe)]
+        elif (part == 'test'):
+            # takes the last 10% of that number of rows
+            dataframe = weather_data[int(
+            0.9*length_dataframe):length_dataframe]
+        else:
+            raise TypeError('part has to be train, validation or test')        
 
 class Convert_data:  # to sin, cosin
 
