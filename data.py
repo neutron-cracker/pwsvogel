@@ -57,9 +57,12 @@ class Get_data:
         Get_data.exportFile(weather_data, "cleanedWeatherData.csv")
         return weather_data
 
-    def exportFile(dataFrame, fileName):
+    def exportFile(dataFrame, fileName, temp = false):
         csv = pandas.DataFrame.to_csv(dataFrame)
-        outfileName = os.path.join(os.getcwd(), fileName)
+        if (temp = false):
+            outfileName = os.path.join(os.getcwd(), fileName)
+        else
+            outfileName = os.path.join(os.getcwd(), temp, fileName
         outFile = open(outfileName, "w")
         outFile.write(csv)
         outFile.close()
