@@ -2,7 +2,7 @@
 import os
 from  datetime import datetime, timedelta
 from pandas import DataFrame
-from tensorflow.keras import  models
+from tensorflow.keras import models
 from os import  path, getcwd
 from data import Get_data
 from pastas.read.knmi import KnmiStation
@@ -28,7 +28,7 @@ def getNeededVariables(arrayWithVariables):
     model = models.load_model(path_to_model)
     print(model.summary())
     predictions = model.predict(x=neededKNMIdata)
-    Get_data.exportFile(DataFrame(predictions), 'predictions.csv')
+    Get_data.exportFile(DataFrame(predictions), 'predictions.csv', true)
     return predictions
 
 prediction_based_on_knmi_date = getNeededVariables(arrayWithVariables)

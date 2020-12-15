@@ -1,5 +1,5 @@
 import os
-
+from os import path, getcwd()
 from pandas.core.frame import DataFrame
 from six import print_
 import data
@@ -17,7 +17,8 @@ from tensorflow import keras
 # Read CSV file for weather and parse dates into pandas dataframe.
 # --------------------------------------------------------------------------------------------------------
 
-root_path = os.getcwd()
+root_path = getcwd()
+temp_path = path.join(root_path, 'temp')
 path_to_csv_weather = os.path.join(root_path, "data/weather_data.csv")
 path_to_csv_bird = os.path.join(
     root_path, "data/bird_migration_per_specie.csv")
@@ -70,8 +71,8 @@ epochs = 200
 # export dataframe
 
 
-Get_data.exportFile(train_bird_dataframe, "bird.csv")
-Get_data.exportFile(train_weather_dataframe, "weather.csv")
+Get_data.exportFile(train_bird_dataframe, "bird.csv", true)
+Get_data.exportFile(train_weather_dataframe, "weather.csv", true)
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -90,9 +91,6 @@ for column in range((len(test_bird_dataframe.columns) - 1), 10, -1):
     test_bird_dataframe = test_bird_dataframe.drop(
         test_bird_dataframe.columns[column], axis=1)
 
-
-print(validation_bird_dataframe.shape)
-
 history = model.fit(x=train_weather_dataframe, y=train_bird_dataframe, epochs=epochs, verbose=2, shuffle=True,
                     validation_data=(validation_weather_dataframe, validation_bird_dataframe))
 
@@ -105,13 +103,13 @@ plt.plot(epoch_count, validation_loss, 'b-')
 plt.legend(['Training Error', 'Validation Loss'])
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
-plt.savefig('loss.png')
+plt.savefig(os.path.join(temp_path, 'loss.png')
 plt.show()
 
 model.save(os.path.join(root_path, "pwsvogelmodel"))
 predictions = model.predict(x=test_weather_dataframe)
 predictions = pandas.DataFrame(data=predictions)
-Get_data.exportFile(predictions, "test_predictions.csv")
+Get_data.exportFile(predictions, "test_predictions.csv", true)
 
 path = os.path.join(os.getcwd(), 'pwsvogelmodel')
 model = keras.models.load_model(path)
